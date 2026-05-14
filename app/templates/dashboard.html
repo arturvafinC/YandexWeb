@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+<h1>Личный кабинет</h1>
+<p class="lead">Пользователь: {{ current_user.name }}</p>
+<div class="row g-3 mb-4">
+    {% for label, value in [("Всего ошибок", total), ("Не разобрано", counts["Не разобрано"]), ("Разобрано", counts["Разобрано"]), ("Нужно повторить", counts["Нужно повторить"]), ("Исправлено", counts["Исправлено"])] %}
+        <div class="col-md">
+            <div class="stat-card">
+                <div class="text-muted">{{ label }}</div>
+                <div class="fs-2 fw-bold">{{ value }}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-primary" href="{{ url_for('mistakes.create_mistake') }}">Добавить ошибку</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('mistakes.list_mistakes') }}">Мои ошибки</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('main.review') }}">Повторить сегодня</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('main.statistics') }}">Статистика</a>
+</div>
+{% endblock %}

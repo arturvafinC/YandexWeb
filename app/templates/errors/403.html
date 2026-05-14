@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}403{% endblock %}
+{% block content %}<h1>У вас нет доступа к этой странице.</h1><a href="{{ url_for('main.index') }}">На главную</a>{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Музей ошибок{% endblock %}
+{% block content %}
+<section class="hero p-5 rounded-4 text-white">
+    <div class="col-lg-8">
+        <h1 class="display-4 fw-bold">Музей ошибок</h1>
+        <p class="lead">Веб-приложение для хранения, анализа и повторения учебных ошибок.</p>
+        <p>Собирайте неправильные ответы, объяснения, темы и статусы, чтобы видеть слабые места и возвращаться к ним вовремя.</p>
+        {% if current_user.is_authenticated %}
+            <a class="btn btn-light btn-lg" href="{{ url_for('main.dashboard') }}">Перейти в личный кабинет</a>
+        {% else %}
+            <a class="btn btn-light btn-lg me-2" href="{{ url_for('auth.register') }}">Зарегистрироваться</a>
+            <a class="btn btn-outline-light btn-lg" href="{{ url_for('auth.login') }}">Войти</a>
+        {% endif %}
+    </div>
+</section>
+<div class="row g-4 mt-2">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h4">Зачем нужен проект</h2>
+                <p>Он помогает не просто исправлять одну задачу, а замечать повторяющиеся причины ошибок: невнимательность, пробелы в правилах, формулы и логику.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h4">Как это работает</h2>
+                <p>Добавьте ошибку, укажите предмет, тему, тип, статус и дату повторения. Затем используйте список, фильтры, повторение сегодня и статистику.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

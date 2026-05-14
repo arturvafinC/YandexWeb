@@ -1,0 +1,15 @@
+body {
+    background: #f6f4ef;
+}
+
+.hero {
+    background: radial-gradient(circle at top left, #bd5f2b, transparent 30%), linear-gradient(135deg, #1f2933, #3b2f2f);
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 12px 30px rgba(32, 30, 27, 0.06);
+}

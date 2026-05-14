@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ mistake.title }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-start gap-3">
+    <div>
+        <h1>{{ mistake.title }}</h1>
+        <p class="lead">{{ mistake.subject.name }} · {{ mistake.topic }} · {{ mistake.mistake_type.name }}</p>
+    </div>
+    <span class="badge text-bg-primary fs-6">{{ mistake.status }}</span>
+</div>
+{% if mistake.image_path %}
+    <img class="img-fluid rounded border mb-3" src="{{ url_for('static', filename=mistake.image_path) }}" alt="Изображение задания">
+{% endif %}
+<div class="card card-body mb-3">
+    <p><strong>Описание:</strong> {{ mistake.description or "не задано" }}</p>
+    <p><strong>Мой неправильный ответ:</strong> {{ mistake.wrong_answer or "не задано" }}</p>
+    <p><strong>Правильный ответ:</strong> {{ mistake.correct_answer or "не задано" }}</p>
+    <p><strong>Объяснение:</strong> {{ mistake.explanation or "не задано" }}</p>
+    <p><strong>Теги:</strong> {{ mistake.tags | map(attribute="name") | join(", ") or "нет" }}</p>
+    <p><strong>Создано:</strong> {{ mistake.created_at.strftime("%Y-%m-%d %H:%M") }}</p>
+    <p><strong>Обновлено:</strong> {{ mistake.updated_at.strftime("%Y-%m-%d %H:%M") }}</p>
+    <p><strong>Дата следующего повторения:</strong> {{ mistake.repeat_at or "не задано" }}</p>
+</div>
+<div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-outline-secondary" href="{{ url_for('mistakes.edit', mistake_id=mistake.id) }}">Редактировать</a>
+    <form method="post" action="{{ url_for('mistakes.delete', mistake_id=mistake.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn-outline-danger" onclick="return confirm('Удалить ошибку?')">Удалить</button>
+    </form>
+    <form method="post" action="{{ url_for('mistakes.mark_fixed', mistake_id=mistake.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="btn btn-success">Отметить как исправленную</button>
+    </form>
+</div>
+{% endblock %}

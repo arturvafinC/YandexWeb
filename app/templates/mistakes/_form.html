@@ -1,0 +1,19 @@
+{{ form.hidden_tag() }}
+<div class="row g-3">
+    <div class="col-md-6">{{ form.title.label(class="form-label") }}{{ form.title(class="form-control") }}</div>
+    <div class="col-md-6">{{ form.topic.label(class="form-label") }}{{ form.topic(class="form-control") }}</div>
+    <div class="col-md-4">{{ form.subject_id.label(class="form-label") }}{{ form.subject_id(class="form-select") }}</div>
+    <div class="col-md-4">{{ form.mistake_type_id.label(class="form-label") }}{{ form.mistake_type_id(class="form-select") }}</div>
+    <div class="col-md-4">{{ form.status.label(class="form-label") }}{{ form.status(class="form-select") }}</div>
+    <div class="col-md-6">{{ form.repeat_at.label(class="form-label") }}{{ form.repeat_at(class="form-control") }}</div>
+    <div class="col-md-6">{{ form.image.label(class="form-label") }}{{ form.image(class="form-control") }}</div>
+    <div class="col-12">{{ form.description.label(class="form-label") }}{{ form.description(class="form-control", rows=3) }}</div>
+    <div class="col-md-6">{{ form.wrong_answer.label(class="form-label") }}{{ form.wrong_answer(class="form-control", rows=3) }}</div>
+    <div class="col-md-6">{{ form.correct_answer.label(class="form-label") }}{{ form.correct_answer(class="form-control", rows=3) }}</div>
+    <div class="col-12">{{ form.explanation.label(class="form-label") }}{{ form.explanation(class="form-control", rows=3) }}</div>
+    <div class="col-12">{{ form.tag_ids.label(class="form-label") }}{{ form.tag_ids(class="form-select", size=6) }}</div>
+</div>
+{% for field in form if field.errors %}
+    {% for error in field.errors %}<div class="text-danger small mt-2">{{ field.label.text }}: {{ error }}</div>{% endfor %}
+{% endfor %}
+<div class="mt-3">{{ form.submit(class="btn btn-primary") }}</div>

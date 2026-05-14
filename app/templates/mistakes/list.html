@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Мои ошибки{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Мои ошибки</h1>
+    <a class="btn btn-primary" href="{{ url_for('mistakes.create_mistake') }}">Добавить ошибку</a>
+</div>
+<form method="get" class="row g-2 align-items-end mb-4">
+    <div class="col-md-3">
+        <label class="form-label">Предмет</label>
+        <select name="subject" class="form-select">
+            <option value="">Все</option>
+            {% for subject in subjects %}<option value="{{ subject.name }}" {% if request.args.get("subject") == subject.name %}selected{% endif %}>{{ subject.name }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Статус</label>
+        <select name="status" class="form-select">
+            <option value="">Все</option>
+            {% for status in ["Не разобрано", "Разобрано", "Нужно повторить", "Исправлено"] %}<option value="{{ status }}" {% if request.args.get("status") == status %}selected{% endif %}>{{ status }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Тип ошибки</label>
+        <select name="type" class="form-select">
+            <option value="">Все</option>
+            {% for item in types %}<option value="{{ item.name }}" {% if request.args.get("type") == item.name %}selected{% endif %}>{{ item.name }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3"><button class="btn btn-outline-primary">Фильтровать</button></div>
+</form>
+<div class="row g-3">
+    {% for mistake in mistakes %}
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="h5">{{ mistake.title }}</h2>
+                    <p class="mb-1"><strong>Предмет:</strong> {{ mistake.subject.name }}</p>
+                    <p class="mb-1"><strong>Тема:</strong> {{ mistake.topic }}</p>
+                    <p class="mb-1"><strong>Тип:</strong> {{ mistake.mistake_type.name }}</p>
+                    <p class="mb-1"><strong>Статус:</strong> {{ mistake.status }}</p>
+                    <p class="mb-1"><strong>Создано:</strong> {{ mistake.created_at.strftime("%Y-%m-%d") }}</p>
+                    <p><strong>Повторение:</strong> {{ mistake.repeat_at or "не задано" }}</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-sm btn-outline-primary" href="{{ url_for('mistakes.detail', mistake_id=mistake.id) }}">Открыть</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('mistakes.edit', mistake_id=mistake.id) }}">Редактировать</a>
+                        <form method="post" action="{{ url_for('mistakes.delete', mistake_id=mistake.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Удалить ошибку?')">Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Ошибок пока нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}

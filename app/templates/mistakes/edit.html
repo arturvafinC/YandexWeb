@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Редактировать ошибку{% endblock %}
+{% block content %}
+<h1>Редактировать ошибку</h1>
+<form method="post" enctype="multipart/form-data" class="card card-body">
+    {% include "mistakes/_form.html" %}
+</form>
+{% endblock %}

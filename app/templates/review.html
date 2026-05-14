@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Повторить сегодня{% endblock %}
+{% block content %}
+<h1>Повторить сегодня</h1>
+<div class="row g-3">
+    {% for mistake in mistakes %}
+        <div class="col-md-6">
+            <div class="card card-body h-100">
+                <h2 class="h5">{{ mistake.title }}</h2>
+                <p>{{ mistake.subject.name }} · {{ mistake.topic }} · {{ mistake.status }}</p>
+                <p>Дата повторения: {{ mistake.repeat_at or "не задана" }}</p>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-sm btn-outline-primary" href="{{ url_for('mistakes.detail', mistake_id=mistake.id) }}">Открыть</a>
+                    <form method="post" action="{{ url_for('main.postpone_review', mistake_id=mistake.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="btn btn-sm btn-outline-secondary">Повторил, перенести на 3 дня</button>
+                    </form>
+                    <form method="post" action="{{ url_for('mistakes.mark_fixed', mistake_id=mistake.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="btn btn-sm btn-success">Отметить как исправленную</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>На сегодня повторений нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}
